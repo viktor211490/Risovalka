@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 namespace WindowsFormsApp1
 {
         [Serializable]
-    public class MyRectangle: Shape
+    public class MyRectangle: Figure
     {
 
         public MyRectangle()
@@ -22,14 +22,14 @@ namespace WindowsFormsApp1
         {
             return "Прямоугольник" + " x=" + x + " y=" + y + " h=" + height + " w=" + width;
         }
-        public override void Drawing(Graphics graphics)
+        public override void Drow(Graphics graphics)
         {
 
             Pen pen = new Pen(color, 2);
            
             graphics.DrawRectangle(pen, x, y, width, height);
             graphics.FillRectangle(new SolidBrush(backgroundColor), x, y, width, height);
-            base.Drawing(graphics);
+            base.Drow(graphics);
         }
         public override bool Touch(int xx, int yy)
         {

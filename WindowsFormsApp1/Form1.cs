@@ -6,65 +6,51 @@ namespace WindowsFormsApp1
 {
     public partial class Form1 : Form
     {
+        Picture picture;
         public Form1()
         {
             InitializeComponent();
         }
-        Picture pctr;
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Graphics g = panel1.CreateGraphics();
-            pctr.DrawPicture();
+            _ = panel1.CreateGraphics();
+            picture.DrawPicture();
         }
         int flag1 = 0;
         bool flag = false;
-
+        int x0, y0;
+        private int oldX = 0;
+        private int oldY = 0;
+        private int kind = 0;
         private void panel2_MouseClick(object sender, MouseEventArgs e)
         {
-            colorDialog1.ShowDialog();
-            panel2.BackColor = colorDialog1.Color;
-            if (pctr.Curfig.Selected)
-                pctr.Curfig.Curfig.Color = colorDialog1.Color;
+            //colorDialog1.ShowDialog();
+            //panel2.BackColor = colorDialog1.Color;
+            //if (pctr.Curfig.Selected)
+            //    pctr.Curfig.Curfig.Color = colorDialog1.Color;
 
-            panel1.Refresh();
+            //panel1.Refresh();
         }
-
         private void panel3_MouseClick(object sender, MouseEventArgs e)
         {
-            colorDialog2.ShowDialog();
-            panel3.BackColor = colorDialog2.Color;
-            if (manipulator.Curfig != null)
-                manipulator.Curfig.BackgroundColor = colorDialog2.Color;
-            panel1.Refresh();
+            //colorDialog2.ShowDialog();
+            //panel3.BackColor = colorDialog2.Color;
+            //var manipulator = new Manipulator(pctr.Curfig);
+            //if (manipulator.Curfig != null)
+            //    manipulator.Curfig.BackgroundColor = colorDialog2.Color;
+            //panel1.Refresh();
         }
-
         private void button1_Click(object sender, EventArgs e)
         {
-
-            pctr.Clear();
+            picture.Clear();
             panel1.Refresh();
         }
-
-        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        private void Panel1_MouseDown(object sender, MouseEventArgs e)
         {
-            if (pctr.Curfig == null || e.Button != MouseButtons.Left)
-            {
-                return;
-            }
-            pctr.Curfig.Drag(e.X - oldX, e.Y - oldY);
-            //manipulator.Curfig.Drag(e.X - oldX, e.Y - oldY);
+            var manipulator = new Manipulator(picture.Curfig);
             oldX = e.X;
             oldY = e.Y;
-            panel1.Refresh();
-        }
-        int x0, y0;
-
-        private void panel1_MouseDown(object sender, MouseEventArgs e)
-        {
-            oldX = e.X;
-            oldY = e.Y;
-            if (radioButton5.Checked)
-                kind = 0;
+            if (radioButton5.Checked) kind = 0;
             if (radioButton1.Checked)
             {
                 kind = 1;
@@ -83,137 +69,97 @@ namespace WindowsFormsApp1
             }
             if (kind == 0)
             {
-                if (pctr.Curfig != null)
+                if (manipulator.TakeFigure != null)
                 {
-                    if (manipulator.Shot(e.X, e.Y))
+                    if (manipulator.DrowHitFigure(e.X, e.Y))
                     {
                         return;
                     }
                 }
-                Shape sh = pctr.Select(e.X, e.Y);
-                manipulator = new Manipulator(sh);
-                if (sh != null)
+                Figure figure = picture.Select(e.X, e.Y);
+                manipulator = new Manipulator(figure);
+                if (figure != null)
                 {
-                    manipulator.Shot(e.X, e.Y);
+                    manipulator.DrowHitFigure(e.X, e.Y);
                 }
                 panel1.Refresh();
                 return;
             }
             if (kind == 1)
             {
-                Creator creator = new MyEllipseCreator(e.X, e.Y, panel2.BackColor, panel3.BackColor, 1, 1);
-                Shape drawable = creator.Create();
-                pctr.Add(drawable);
+                var creator = new MyEllipseCreator(e.X, e.Y, panel2.BackColor, panel3.BackColor, 1, 1);
+                picture.Add(creator.Create());
                 panel1.Refresh();
                 return;
             }
             if (kind == 2)
             {
-                Creator creator = new MyRectangleCreator(e.X, e.Y, panel2.BackColor, panel3.BackColor, 1, 1);
-                Shape drawable = creator.Create();
-                pctr.Add(drawable);
+                var creator = new MyRectangleCreator(e.X, e.Y, panel2.BackColor, panel3.BackColor, 1, 1);
+                picture.Add(creator.Create());
                 panel1.Refresh();
                 return;
             }
             if (kind == 3)
             {
-                Creator creator = new RhombusCreator(e.X, e.Y, panel2.BackColor, panel3.BackColor, 1, 1);
-                Shape drawable = creator.Create();
-                pctr.Add(drawable);
-                panel1.Refresh();
                 return;
             }
-
             flag = true;
             x0 = e.X;
             y0 = e.Y;
-            //if (kind == 4)
-            //{
-            //    MyLine ln = new MyLine(x0, y0, e.X, e.Y, Color.Black);
-            //    pctr.Add(ln);
-            //    panel1.Refresh();
-            //    return;
-            //}
+        }
+        private void panel1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (picture.Curfig == null || e.Button != MouseButtons.Left)
+            {
+                return;
+            }
+            picture.Curfig.Drag(e.X - oldX, e.Y - oldY);
+            oldX = e.X;
+            oldY = e.Y;
+            panel1.Refresh();
         }
         private void panel1_MouseUp(object sender, MouseEventArgs e)
         {
-            Graphics g = panel1.CreateGraphics();
+            _ = panel1.CreateGraphics();
             if (kind != 0)
             {
                 if (kind == 2)
                 {
-                    if (pctr.Curfig.Width_E < 0 || pctr.Curfig.Height_E < 0)
+                    if (picture.Curfig.Width_E < 0 || picture.Curfig.Height_E < 0)
                     {
-                        if (pctr.Curfig.Width_E < 0)
+                        if (picture.Curfig.Width_E < 0)
                         {
-                            pctr.Curfig.Width_E = Math.Abs(pctr.Curfig.Width_E);
-                            pctr.Curfig.x_E = pctr.Curfig.x_E - pctr.Curfig.Width_E;
+                            picture.Curfig.Width_E = Math.Abs(picture.Curfig.Width_E);
+                            picture.Curfig.Position_X = picture.Curfig.Position_X - picture.Curfig.Width_E;
                         }
-                        if (pctr.Curfig.Height_E < 0)
+                        if (picture.Curfig.Height_E < 0)
                         {
-                            pctr.Curfig.Height_E = Math.Abs(pctr.Curfig.Height_E);
-                            pctr.Curfig.y_E = pctr.Curfig.y_E - pctr.Curfig.Height_E;
+                            picture.Curfig.Height_E = Math.Abs(picture.Curfig.Height_E);
+                            picture.Curfig.Position_Y = picture.Curfig.Position_Y - picture.Curfig.Height_E;
                         }
                     }
-                    pctr.Deselect();
+                    //pctr.Deselect();
                 }
-                pctr.Deselect();
+                //pctr.Deselect();
                 panel1.Refresh();
             }
-            //if (radioButton4.Checked)
-            //{
-            //    MyLine d = new MyLine(x0, y0, e.X, e.Y, Color.Black);
-            //    flag = false;
-            //    a.Add(d);
-            //    panel1.Refresh();
-            //}
         }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                saveFileDialog1.ShowDialog();
-                pctr.Save(saveFileDialog1.FileName);
-
-            }
-            catch
-            { }
-
-        }
-
-        private void button3_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                openFileDialog1.ShowDialog();
-                pctr.Load(openFileDialog1.FileName);
-                panel1.Refresh();
-            }
-            catch
-            { }
-        }
-        private int oldX = 0;
-        private int oldY = 0;
-        private int kind = 0;
 
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
 
         }
-
         private void button4_Click(object sender, EventArgs e)
         {
-            if (pctr.Curfig != null)
+            if (picture.Curfig != null)
             {
-                pctr.Remove(pctr.Curfig);
+                picture.Remove(picture.Curfig);
             }
             panel1.Refresh();
         }
-
         private void Form1_Load(object sender, EventArgs e)
         {
-            pctr = new Picture(panel1);
+            picture = new Picture(panel1);
             panel2.BackColor = Color.Black;
         }
     }

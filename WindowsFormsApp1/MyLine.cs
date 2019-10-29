@@ -28,7 +28,7 @@ namespace WindowsFormsApp1
             this.y1 = y1;
             this.color = c;
         }
-        public void Drawing(Graphics g)
+        public void Drow(Graphics g)
         {
             Pen p = new Pen(color, 4);
             Point[] point = new Point[2];

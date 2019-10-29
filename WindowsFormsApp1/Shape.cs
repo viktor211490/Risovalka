@@ -1,21 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
 namespace WindowsFormsApp1
 {
-    [Serializable]
-    public abstract class Shape : IDrawable
+    //[Serializable]
+    public abstract class Figure : IDrawable
     {
-        //protected bool selected = false;
-        protected int x, y,width,height;
+        protected bool selected = false;
+        protected int x, y, width, height;
         protected Color color, backgroundColor;
-        protected int ActivePoint = -1;
-        public Shape(int x,int y,Color color,Color backgroundColor,int ww,int hh)
+        protected int ActivePoint = 3;
+        public Figure(int x, int y, Color color, Color backgroundColor, int ww, int hh)
         {
             ActivePoint = 3;
             this.x = x;
@@ -25,7 +21,7 @@ namespace WindowsFormsApp1
             this.color = color;
             this.backgroundColor = backgroundColor;
         }
-        public Shape()
+        public Figure()
         {
             x = 0;
             y = 0;
@@ -34,26 +30,23 @@ namespace WindowsFormsApp1
             color = Color.Black;
             backgroundColor = Color.Black;
         }
-        public override string ToString()
+        public virtual void Drow(Graphics graphics)
         {
-            return "Фигура"+" x="+x+" y="+y+ " h="+height+" w="+width;
-        }
-        public virtual void Drawing(Graphics graphics)
-        {
-            if(selected)
-            {
-                DrawFrame(graphics);
-            }
-        }
-        public int x_E
+        } //для декоратора
+        public int Position_X
         {
             get { return x; }
             set { x = value; }
         }
-        public int y_E
+        public int Position_Y
         {
             get { return y; }
             set { y = value; }
+        }
+        public bool Selected
+        {
+            get { return selected; }
+            set { selected = value; }
         }
         public Color Color
         {
@@ -75,7 +68,7 @@ namespace WindowsFormsApp1
             get { return height; }
             set { /*if (value >= 1)*/ height = value; }
         }
-       
+
         private void DrawFrame(Graphics graphics)
         {
             Pen pen = new Pen(Color.Black, 1);
@@ -85,10 +78,9 @@ namespace WindowsFormsApp1
             graphics.DrawRectangle(pen, x + width + 2, y + height + 10 - 4 - 5, 8, 8);
             pen.DashStyle = DashStyle.Dash;
             pen.DashPattern = new float[2] { 7, 3 };
-            graphics.DrawRectangle(pen, x-5, y-5, width+10, height+10);
-        }
+            graphics.DrawRectangle(pen, x - 5, y - 5, width + 10, height + 10);
+        }//для декоратора
         public abstract bool Touch(int xx, int yy);
-        
         public void Drag(int dx, int dy)
         {
             if (ActivePoint == -1)
@@ -97,21 +89,21 @@ namespace WindowsFormsApp1
             }
             if (ActivePoint == 0)
             {
-                x_E += dx;
-                y_E += dy;
+                Position_X += dx;
+                Position_Y += dy;
             }
             if (ActivePoint == 1)
             {
                 Width_E -= dx;
                 Height_E -= dy;
-                x_E += dx;
-                y_E += dy;
+                Position_X += dx;
+                Position_Y += dy;
             }
             if (ActivePoint == 2)
             {
                 Width_E += dx;
                 Height_E -= dy;
-                y_E += dy;
+                Position_Y += dy;
             }
             if (ActivePoint == 3)
             {
@@ -122,10 +114,8 @@ namespace WindowsFormsApp1
             {
                 Width_E -= dx;
                 Height_E += dy;
-                x_E += dx;
-                // y += dy;
+                Position_X += dx;
             }
-
         }
     }
 }

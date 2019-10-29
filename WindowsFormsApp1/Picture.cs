@@ -1,145 +1,124 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Collections;
-using System.Drawing;
+﻿using System.Collections;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Drawing;
 
 namespace WindowsFormsApp1
 {
     class Picture
     {
-        protected ArrayList arrayList = new ArrayList();
+        protected ArrayList arayList = new ArrayList();
         protected Graphics graphics = null;
-        //protected Shape currentFigure = null;
-        protected Manipulator man;
-        public Picture(Control control)
+        protected Figure figure = null;
+        public Picture(Control Control)
         {
-            if (control != null)
+            if (Control != null)
             {
-                graphics = control.CreateGraphics();
+                graphics = Control.CreateGraphics();
             }
         }
         public Picture()
         {
-
         }
-        public Shape TakeCurrentFugure()
+        public Figure Curfig
         {
-            return currentFigure;
+            get { return figure; }
+            set { figure = value; }
         }
-        public ArrayList TakeArrayList()
+        public void Add(Figure Figure)
         {
-            return arrayList;
-        }
-        public Manipulator Curfig
-        {
-            get { return man; }
-        }
-        public void Add(Shape shape)
-        {
-            if (shape != null)
+            if (Figure != null)
             {
-                arrayList.Add(shape);
-                //if (currentFigure != null)
-                //{
-                //    currentFigure.Selected = false;
-                //}
-                //shape.Selected = true;
-                //currentFigure = shape;
+                arayList.Add(Figure);
+                if (figure != null)
+                {
+                    figure.Selected = false;
+                }
+                Figure.Selected = true;
+                figure = Figure;
             }
         }
-        public void Remove(Shape shape)
+        public void Remove(Figure figure)
         {
-            if (shape != null)
+            if (figure != null)
             {
-                if (currentFigure == shape)
+                if (this.figure == figure)
                 {
-                    currentFigure.Selected = false;
-                    currentFigure = null;
+                    this.figure.Selected = false;
+                    this.figure = null;
                 }
-                arrayList.Remove(shape);
+                arayList.Remove(figure);
             }
         }
         public void DrawPicture()
         {
             if (graphics != null)
             {
-                foreach (Shape sh in arrayList)
+                foreach (Figure figure in arayList)
                 {
-                    sh.Drawing(graphics);
+                    figure.Drow(graphics);
                 }
-                man.Drawing(graphics);
             }
         }
-        public Shape Select(int posution_x, int posution_y)
+        public Figure Select(int xx, int yy)
         {
-
-            if (man.Selected)
+            Figure figure = null;
+            Deselect();
+            foreach (Figure s in arayList)
             {
-                if (man.Curfig.Touch(posution_x,posution_y))
-                {
-                    return man.Curfig;
-                }
+                if (s.Touch(xx, yy))
+                    figure = s;
             }
-            foreach (Shape shape1 in arrayList)
+            if (figure != null)
             {
-                if (shape1.Touch(posution_x, posution_y))
-                {
-                    man.Curfig = shape1;
-                    return shape1;
-                }
-
-            }           
-            return null;
+                figure.Selected = true;
+                this.figure = figure;
+            }
+            return figure;
         }
         public void Deselect()
         {
-            if (currentFigure != null)
+            if (figure != null)
             {
-                currentFigure.Selected = false;
-                currentFigure = null;
+                figure.Selected = false;
+                figure = null;
             }
-
         }
-        public void Save(string str)
+        public void Save(string stroka)
         {
-            if (currentFigure != null)
+            if (figure != null)
             {
-                currentFigure.Selected = false;
-                currentFigure = null;
+                figure.Selected = false;
+                figure = null;
             }
-            BinaryFormatter binaryFormater = new BinaryFormatter();
-            Stream stream = File.Create(str);
-            binaryFormater.Serialize(stream, arrayList);
-            stream.Close();
+            BinaryFormatter bnf = new BinaryFormatter();
+            Stream st = File.Create(stroka);
+            bnf.Serialize(st, arayList);
+            st.Close();
         }
-        public void Load(string str)
+        public void Load(string @string)
         {
-            if (currentFigure != null)
+            if (figure != null)
             {
-                currentFigure.Selected = false;
-                currentFigure = null;
+                figure.Selected = false;
+                figure = null;
             }
-            BinaryFormatter binaryFormater = new BinaryFormatter();
-            Stream stream = File.OpenRead(str);
-            arrayList = (ArrayList)binaryFormater.Deserialize(stream);
+            BinaryFormatter binaryFornater = new BinaryFormatter();
+            Stream stream = File.OpenRead(@string);
+            arayList = (ArrayList)binaryFornater.Deserialize(stream);
             stream.Close();
         }
         public void Clear()
         {
-            arrayList.Clear();
-            currentFigure = null;
+            arayList.Clear();
+            figure = null;
         }
         public void Delete()
         {
-            if (currentFigure != null)
+            if (figure != null)
             {
-                Remove(currentFigure);
+                Remove(figure);
             }
         }
     }

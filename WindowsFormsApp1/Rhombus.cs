@@ -9,7 +9,7 @@ using System.Drawing.Drawing2D;
 namespace WindowsFormsApp1
 {
         [Serializable]
-    class Rhombus: Shape
+    class Rhombus: Figure
     {
             
         public Rhombus()
@@ -22,7 +22,7 @@ namespace WindowsFormsApp1
         {
             return "Ромб" + " x=" + x + " y=" + y + " h=" + height + " w=" + width;
         }
-        public override void Drawing(Graphics graphics)
+        public override void Drow(Graphics graphics)
         {
             Pen pen = new Pen(color, 2);
             Point[] point=new Point[4];
@@ -32,7 +32,7 @@ namespace WindowsFormsApp1
             point[2] = new Point(x + width / 2, y + height);
             graphics.DrawPolygon(pen,point);
             graphics.FillPolygon(new SolidBrush(backgroundColor), point);
-            base.Drawing(graphics);
+            base.Drow(graphics);
         }
         public override bool Touch(int xx, int yy)
         {

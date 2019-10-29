@@ -1,19 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace WindowsFormsApp1
 {
-    public class Manipulator : Shape
+    public class Manipulator : Figure
     {
-        Shape _shape;
-        //Picture picture;
-
-        public Manipulator(Shape shape)
+        Figure _shape;
+        public Manipulator(Figure shape)
         {
             _shape = shape;
         }
@@ -21,36 +14,34 @@ namespace WindowsFormsApp1
         {
             get { return _shape != null; }
         }
-
-        public Shape Curfig
+        public Figure TakeFigure
         {
             get { return _shape; }
             set { _shape = value; }
         }
-        public void SetShape(Shape shape)
+        public void SetShape(Figure shape)
         {
             _shape = shape;
         }
-
         public override bool Touch(int xx, int yy)
         {
             GraphicsPath graphicsPath = new GraphicsPath();
             graphicsPath.AddEllipse(x, y, width, height);
             return graphicsPath.IsVisible(xx, yy);
         }
-        public bool Shot(int xx, int yy)
+        public bool DrowHitFigure(int xx, int yy)
         {
             if (Width_E < 0 || Height_E < 0)
             {
                 if (Width_E < 0)
                 {
                     Width_E = Math.Abs(Width_E);
-                    x_E -= Width_E;
+                    Position_X -= Width_E;
                 }
                 if (Height_E < 0)
                 {
                     Height_E = Math.Abs(Height_E);
-                    y_E -= Height_E;
+                    Position_Y -= Height_E;
                 }
             }
             ActivePoint = -1;
@@ -76,7 +67,7 @@ namespace WindowsFormsApp1
             }
             return (ActivePoint != -1);
         }
-        public Shape GetShape()
+        public Figure GetShape()
         {
             return _shape;
         }

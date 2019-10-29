@@ -9,7 +9,7 @@ namespace WindowsFormsApp1
 {
   abstract class Creator
     {
-        abstract public Shape Create();
+        abstract public Figure Create();
     }
     class MyEllipseCreator : Creator
     {
@@ -25,7 +25,7 @@ namespace WindowsFormsApp1
             this.bcolor = bcolor;
         }
 
-        public override Shape Create()
+        public override Figure Create()
         {
             return new MyEllipse(position_x,position_y,color,bcolor,width,height);
         }
@@ -44,7 +44,7 @@ namespace WindowsFormsApp1
             this.bcolor = bcolor;
         }
 
-        public override Shape Create()
+        public override Figure Create()
         {
             return new MyRectangle(xx, yy, color, bcolor, ww, hh);
         }
@@ -64,7 +64,7 @@ namespace WindowsFormsApp1
             this.bcolor = bcolor;
         }
 
-        public override Shape Create()
+        public override Figure Create()
         {
             return new Rhombus(xx, yy, color, bcolor, ww, hh);
         }
@@ -83,7 +83,7 @@ namespace WindowsFormsApp1
             
         }
 
-        public override Shape Create()
+        public override Figure Create()
         {
             return new MyRectangle(xx, yy, color, bcolor, ww, hh);
         }
