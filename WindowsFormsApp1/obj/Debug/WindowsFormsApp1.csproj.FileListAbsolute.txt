@@ -76,3 +76,8 @@ D:\4 курс\ПАК ПС\WindowsFormsApp1 — копия\WindowsFormsApp1\obj\D
 D:\4 курс\ПАК ПС\WindowsFormsApp1 — копия\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache
 D:\4 курс\ПАК ПС\WindowsFormsApp1 — копия\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.exe
 D:\4 курс\ПАК ПС\WindowsFormsApp1 — копия\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.pdb
+D:\Risovalka\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csprojResolveAssemblyReference.cache
+D:\Risovalka\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Form1.resources
+D:\Risovalka\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.Properties.Resources.resources
+D:\Risovalka\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.GenerateResource.Cache
+D:\Risovalka\WindowsFormsApp1\obj\Debug\WindowsFormsApp1.csproj.CoreCompileInputs.cache

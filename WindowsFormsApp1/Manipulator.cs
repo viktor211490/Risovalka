@@ -11,8 +11,6 @@ namespace WindowsFormsApp1
     public class Manipulator : Shape
     {
         Shape _shape;
-        //Picture picture;
-
         public Manipulator(Shape shape)
         {
             _shape = shape;
@@ -21,7 +19,6 @@ namespace WindowsFormsApp1
         {
             get { return _shape != null; }
         }
-
         public Shape Curfig
         {
             get { return _shape; }
@@ -31,7 +28,6 @@ namespace WindowsFormsApp1
         {
             _shape = shape;
         }
-
         public override bool Touch(int xx, int yy)
         {
             GraphicsPath graphicsPath = new GraphicsPath();
