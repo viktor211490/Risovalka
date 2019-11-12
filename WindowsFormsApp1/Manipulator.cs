@@ -19,7 +19,7 @@ namespace WindowsFormsApp1
         {
             get { return _shape != null; }
         }
-        public Shape Curfig
+        public Shape manCurfig
         {
             get { return _shape; }
             set { _shape = value; }

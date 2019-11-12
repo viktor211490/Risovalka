@@ -8,7 +8,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
-
 namespace WindowsFormsApp1
 {
     class Picture
@@ -29,7 +28,7 @@ namespace WindowsFormsApp1
         }
         public Shape TakeCurrentFugure()
         {
-            return currentFigure;
+            return man.manCurfig;
         }
         public ArrayList TakeArrayList()
         {
@@ -56,10 +55,9 @@ namespace WindowsFormsApp1
         {
             if (shape != null)
             {
-                if (currentFigure == shape)
+                if (man.manCurfig == shape)
                 {
-                    currentFigure.Selected = false;
-                    currentFigure = null;
+                    man.manCurfig = null;
                 }
                 arrayList.Remove(shape);
             }
@@ -80,65 +78,32 @@ namespace WindowsFormsApp1
 
             if (man.Selected)
             {
-                if (man.Curfig.Touch(posution_x,posution_y))
+                if (man.manCurfig.Touch(posution_x,posution_y))
                 {
-                    return man.Curfig;
+                    return man.manCurfig;
                 }
             }
             foreach (Shape shape1 in arrayList)
             {
                 if (shape1.Touch(posution_x, posution_y))
                 {
-                    man.Curfig = shape1;
+                    man.manCurfig = shape1;
                     return shape1;
                 }
 
             }           
             return null;
         }
-        public void Deselect()
-        {
-            if (currentFigure != null)
-            {
-                currentFigure.Selected = false;
-                currentFigure = null;
-            }
-
-        }
-        public void Save(string str)
-        {
-            if (currentFigure != null)
-            {
-                currentFigure.Selected = false;
-                currentFigure = null;
-            }
-            BinaryFormatter binaryFormater = new BinaryFormatter();
-            Stream stream = File.Create(str);
-            binaryFormater.Serialize(stream, arrayList);
-            stream.Close();
-        }
-        public void Load(string str)
-        {
-            if (currentFigure != null)
-            {
-                currentFigure.Selected = false;
-                currentFigure = null;
-            }
-            BinaryFormatter binaryFormater = new BinaryFormatter();
-            Stream stream = File.OpenRead(str);
-            arrayList = (ArrayList)binaryFormater.Deserialize(stream);
-            stream.Close();
-        }
         public void Clear()
         {
             arrayList.Clear();
-            currentFigure = null;
+            man.manCurfig = null;
         }
         public void Delete()
         {
-            if (currentFigure != null)
+            if (man.manCurfig != null)
             {
-                Remove(currentFigure);
+                Remove(man.manCurfig);
             }
         }
     }

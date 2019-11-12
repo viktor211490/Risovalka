@@ -11,7 +11,6 @@ namespace WindowsFormsApp1
     [Serializable]
     public abstract class Shape : IDrawable
     {
-        //protected bool selected = false;
         protected int x, y,width,height;
         protected Color color, backgroundColor;
         protected int ActivePoint = -1;
@@ -40,10 +39,10 @@ namespace WindowsFormsApp1
         }
         public virtual void Drawing(Graphics graphics)
         {
-            if(selected)
-            {
-                DrawFrame(graphics);
-            }
+            //if(selected)
+            //{
+            //    DrawFrame(graphics);
+            //}
         }
         public int x_E
         {

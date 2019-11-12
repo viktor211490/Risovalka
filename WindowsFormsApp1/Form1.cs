@@ -13,6 +13,8 @@ namespace WindowsFormsApp1
         private int oldX = 0;
         private int oldY = 0;
         private int kind = 0;
+        Shape shape;
+        Manipulator manipulator;
         public Form1()
         {
             InitializeComponent();
@@ -31,7 +33,7 @@ namespace WindowsFormsApp1
             colorDialog1.ShowDialog();
             if (pctr.Curfig.Selected)
             {
-                pctr.Curfig.Curfig.Color = colorDialog1.Color;
+                pctr.Curfig.manCurfig.Color = colorDialog1.Color;
             }
         }
         private void Button1_Click(object sender, EventArgs e)
@@ -68,24 +70,24 @@ namespace WindowsFormsApp1
             {
                 kind = 3;
             }
-            if (kind == 0)
-            {
-                if (pctr.Curfig != null)
-                {
-                    if (manipulator.Shot(e.X, e.Y))
-                    {
-                        return;
-                    }
-                }
-                Shape sh = pctr.Select(e.X, e.Y);
-                manipulator = new Manipulator(sh);
-                if (sh != null)
-                {
-                    manipulator.Shot(e.X, e.Y);
-                }
-                panel1.Refresh();
-                return;
-            }
+            //if (kind == 0)
+            //{
+            //    if (pctr.Curfig != null)
+            //    {
+            //        if (shape.Shot(e.X, e.Y))
+            //        {
+            //            return;
+            //        }
+            //    }
+            //    Shape sh = pctr.Select(e.X, e.Y);
+            //    shape = new Manipulator(sh);
+            //    if (sh != null)
+            //    {
+            //        shape.Shot(e.X, e.Y);
+            //    }
+            //    panel1.Refresh();
+            //    return;
+            //}
             if (kind == 1)
             {
                 Creator creator = new MyEllipseCreator(e.X, e.Y, Color.Black, Color.Black, 1, 1);
@@ -110,7 +112,6 @@ namespace WindowsFormsApp1
                 panel1.Refresh();
                 return;
             }
-
             flag = true;
             x0 = e.X;
             y0 = e.Y;
@@ -135,9 +136,7 @@ namespace WindowsFormsApp1
                             pctr.Curfig.y_E = pctr.Curfig.y_E - pctr.Curfig.Height_E;
                         }
                     }
-                    pctr.Deselect();
                 }
-                pctr.Deselect();
                 panel1.Refresh();
             }
         }
