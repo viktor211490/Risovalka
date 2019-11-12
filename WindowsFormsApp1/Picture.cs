@@ -15,7 +15,6 @@ namespace WindowsFormsApp1
     {
         protected ArrayList arrayList = new ArrayList();
         protected Graphics graphics = null;
-        //protected Shape currentFigure = null;
         protected Manipulator man;
         public Picture(Control control)
         {
